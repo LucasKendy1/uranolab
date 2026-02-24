@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Urano Lab | Impressão 3D & Projetos</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #2c3e50;
+        --accent: #3498db;
+        --bg: #ffffff;
+        --text: #333333;
+        --card-bg: #fdfdfd;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      /* Efeito de Constelações no Fundo */
+      #constellation-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 0.3;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      header {
+        margin-bottom: 40px;
+      }
+      .logo img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+      }
+      .subtitle {
+        font-size: 1rem;
+        color: #777;
+        margin-top: 15px;
+        font-weight: 300;
+        letter-spacing: 1px;
+      }
+
+      /* Botões de Ação Principal */
+      .links-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 40px;
+      }
+      .link-card {
+        background: #f9f9f9;
+        border: 1px solid #eee;
+        padding: 18px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      .link-card:hover {
+        transform: translateY(-3px);
+        background: #fff;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        border-color: var(--accent);
+      }
+
+      /* Seção de Contato para Lojistas */
+      .b2b-section {
+        padding: 25px;
+        background: #fdfdfd;
+        border-radius: 15px;
+        border: 1px dashed #ccc;
+        margin-bottom: 50px;
+      }
+      .b2b-section h3 {
+        margin-bottom: 10px;
+        color: var(--primary);
+        font-size: 1.2rem;
+      }
+
+      /* Vitrine de Produtos */
+      .gallery-title {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .mini-gallery {
+        display: grid;
+        grid-template-columns: repeat(
+          2,
+          1fr
+        ); /* 2 colunas para mobile ser útil */
+        gap: 15px;
+      }
+
+      .product-card {
+        background: var(--card-bg);
+        border: 1px solid #eee;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+      }
+
+      .product-card:hover {
+        transform: scale(1.03);
+      }
+
+      .product-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+      }
+
+      footer {
+        margin-top: 60px;
+        padding-bottom: 40px;
+        font-size: 0.8rem;
+        color: #aaa;
+      }
+
+      /* Ajuste para telas maiores */
+      @media (min-width: 600px) {
+        .mini-gallery {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="constellation-canvas"></canvas>
+
+    <div class="container">
+      <header>
+        <div class="logo">
+          <img
+            src="https://i.ibb.co/V0xDVHYH/logo.jpg"
+            alt="Urano Lab Logo"
+            width="300"
+          />
+        </div>
+        <p class="subtitle">Tecnologia em 3D. Precisão de outro mundo.</p>
+      </header>
+
+      <div class="links-container">
+        <!-- Shopee -->
+        <a href="https://br.shp.ee/A37Mm1Z" class="link-card" target="_blank">
+          <i class="fa-solid fa-bag-shopping" style="color: #ee4d2d"></i> Loja
+          na Shopee
+        </a>
+        <!-- Instagram -->
+        <a
+          href="https://www.instagram.com/urano.lab11?igsh=MWliNzMzdnNoaGFyMQ=="
+          class="link-card"
+          target="_blank"
+        >
+          <i class="fa-brands fa-instagram" style="color: #e4405f"></i>
+          Portfólio no Instagram
+        </a>
+        <!-- TikTok -->
+        <a
+          href="https://www.tiktok.com/@lucassauro_20?_r=1&_t=ZS-94BkHzGZTCi"
+          class="link-card"
+          target="_blank"
+        >
+          <i class="fa-brands fa-tiktok"></i> Projetos no TikTok
+        </a>
+        <!-- WhatsApp Direto -->
+        <a
+          href="https://wa.me/11973007145?text=Olá,%20gostaria%20de%20um%20orçamento%20da%20Urano%20Lab."
+          class="link-card"
+          style="background: var(--primary); color: white"
+        >
+          <i class="fa-brands fa-whatsapp"></i> Orçamentos e Parcerias
+        </a>
+      </div>
+
+      <div class="b2b-section">
+        <h3>Espaço do Lojista</h3>
+        <p>Condições especiais para revenda e projetos corporativos locais.</p>
+        <p style="margin-top: 10px; font-weight: bold; color: var(--accent)">
+          lucaskendy2002@gmail.com
+        </p>
+      </div>
+
+      <h3 class="gallery-title">Nossas Impressões</h3>
+      <div class="mini-gallery">
+        <!-- Imagens dos produtos baseadas nos seus uploads -->
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/9HCP6g0C/br-11134207-7r98o-m9zr9ar64bw952.avif"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/zWQGQzvd/br-11134207-7r98o-m9zr9ar5ypmhd3.avif"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/5ZdRLyT/br-11134207-7r98o-m9zr9ar5t3cp7d.avif"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/zhYDvYBs/br-11134207-7r98o-m9zrijxebsjd53.avif"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/fVWwPhsn/br-11134207-81zu9-mkyfyzxb5zwg23.avif"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/JwdSMFYV/br-11134207-81zuf-mkzqraa7nn5ve7.avif"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/PGF721Bv/IMG-20260222-WA0000.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/VW9NdVtW/20260214-175404.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/QFMNmmDM/20260214-132721.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/kgZCbcqF/20260214-102013.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/Q7dxhVz7/20260214-101902.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/4RdfXnpJ/20260214-101823.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/yBPwp1HF/20260214-101750.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/vC3WbD2Y/20260214-101650.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/qXpdqcN/20260214-101530.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/S4S64qvY/20260214-101507.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/fVx92VM4/20260214-101359.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/HTxV1rTt/20260214-100951.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/d0WWx2r2/20260214-074210.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/ymB7mKT2/20260212-150952.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/1tnRP5FS/20260208-212017.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/dsfB89R5/20260208-211816.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/twfLs9jQ/20260207-222801.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/FLSSxrnC/20260207-105829.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/0j0kpch7/20260204-172603.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/V0B4g7XV/20260205-061419.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+        <div class="product-card">
+          <img
+            src="https://i.ibb.co/WdrFsY5/20260221-151955.jpg"
+            class="product-image"
+            alt="Produto 3D"
+          />
+        </div>
+      </div>
+
+      <footer>&copy; 2026 Urano Lab. Todos os direitos reservados.</footer>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("constellation-canvas");
+      const ctx = canvas.getContext("2d");
+      let particles = [];
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 2 + 1;
+          this.speedX = Math.random() * 0.4 - 0.2;
+          this.speedY = Math.random() * 0.4 - 0.2;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x > canvas.width) this.x = 0;
+          if (this.x < 0) this.x = canvas.width;
+          if (this.y > canvas.height) this.y = 0;
+          if (this.y < 0) this.y = canvas.height;
+        }
+        draw() {
+          ctx.fillStyle = "#ddd";
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function init() {
+        particles = [];
+        for (let i = 0; i < 40; i++) particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p, index) => {
+          p.update();
+          p.draw();
+          for (let j = index; j < particles.length; j++) {
+            const dx = p.x - particles[j].x;
+            const dy = p.y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 120) {
+              ctx.strokeStyle = "rgba(220, 220, 220, 0.3)";
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        });
+        requestAnimationFrame(animate);
+      }
+      init();
+      animate();
+    </script>
+  </body>
+</html>
